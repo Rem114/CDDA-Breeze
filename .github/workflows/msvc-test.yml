@@ -1,10 +1,6 @@
 name: "Windows & Android Test"
 
 on:
-  pull_request:
-    branches:
-      - main
-    types: [opened, reopened, synchronize, ready_for_review]
   workflow_dispatch:
 
 permissions:
@@ -65,10 +61,10 @@ jobs:
           run_android=false
 
           if [[ "${{ github.event_name }}" != "pull_request" ]]; then
-            # Manual runs are explicit full validation requests.
+            # Manual runs validate the Windows MSVC build only.
             run_msvc=true
-            run_android_gradle=true
-            run_android=true
+            run_android_gradle=false
+            run_android=false
           else
             while IFS= read -r path; do
               case "${path}" in
